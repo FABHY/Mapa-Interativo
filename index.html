@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa Interativo</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input {
+            width: 200px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #mapa {
+            width: 100%;
+            height: 500px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Mapa Interativo</h1>
+
+    <div class="container">
+        <button onclick="atualizarLocalizacao()">Atualizar Localização</button>
+        <input type="text" id="search" placeholder="Pesquisar locais">
+        <button onclick="buscarLocais()">Buscar</button>
+        <input type="text" id="start" placeholder="Ponto de partida">
+        <input type="text" id="end" placeholder="Destino">
+        <button onclick="tracarRota()">Traçar Rota</button>
+        <button onclick="mostrarTransporte()">Mostrar Transporte</button>
+    </div>
+
+    <div id="mapa"></div>
+
+    <script>
+        var map = L.map('mapa').setView([-23.55052, -46.633308], 13); // Coordenadas de SP por padrão
+
+        // Adicionar camada do mapa
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        function atualizarLocalizacao() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var lat = position.coords.latitude;
+                    var lng = position.coords.longitude;
+                    map.setView([lat, lng], 15);
+                    L.marker([lat, lng]).addTo(map)
+                        .bindPopup("Você está aqui!")
+                        .openPopup();
+                }, function() {
+                    alert("Não foi possível obter a localização.");
+                });
+            } else {
+                alert("Geolocalização não suportada pelo navegador.");
+            }
+        }
+
+        function buscarLocais() {
+            alert("Buscando locais...");
+        }
+
+        function tracarRota() {
+            alert("Traçando rota...");
+        }
+
+        function mostrarTransporte() {
+            alert("Mostrando opções de transporte...");
+        }
+    </script>
+
+</body>
+</html>
